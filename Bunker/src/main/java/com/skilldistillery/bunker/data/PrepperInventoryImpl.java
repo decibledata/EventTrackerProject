@@ -1,4 +1,4 @@
-package com.skilldistillery.bunker.services;
+package com.skilldistillery.bunker.data;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.skilldistillery.bunker.entities.PrepperInventory;
 import com.skilldistillery.bunker.repositories.PrepperInventoryRepository;
+import com.skilldistillery.bunker.services.PrepperInventoryService;
 
 @Service
 public class PrepperInventoryImpl implements PrepperInventoryService {
