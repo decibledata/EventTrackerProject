@@ -9,9 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
+//REFACTOR TO PREPPER CATEGORY WHEN YOU HAVE TIME
 
 @Entity
-@Table(name = "prepper_inventory")
+@Table(name = "prepper_category")
 public class PrepperInventory {
 	
 	@Id
@@ -19,11 +20,13 @@ public class PrepperInventory {
 	private int id;
 	
 	private String name;
+	
+	private String description;
 
 	public PrepperInventory() {
 		super();
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -40,9 +43,17 @@ public class PrepperInventory {
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(description, id, name);
 	}
 
 	@Override
@@ -54,13 +65,14 @@ public class PrepperInventory {
 		if (getClass() != obj.getClass())
 			return false;
 		PrepperInventory other = (PrepperInventory) obj;
-		return id == other.id && Objects.equals(name, other.name);
+		return Objects.equals(description, other.description) && id == other.id && Objects.equals(name, other.name);
 	}
 
 	@Override
 	public String toString() {
-		return "PrepperInventory [id=" + id + ", name=" + name + "]";
+		return "PrepperInventory [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
-
+	
+	
 	
 }
