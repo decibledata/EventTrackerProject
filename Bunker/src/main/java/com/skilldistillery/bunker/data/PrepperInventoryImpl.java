@@ -13,34 +13,38 @@ import com.skilldistillery.bunker.services.PrepperInventoryService;
 public class PrepperInventoryImpl implements PrepperInventoryService {
 
 	@Autowired
-	private PrepperInventoryRepository prepInv;
+	private PrepperInventoryRepository repo;
 	
 	@Override
 	public List<PrepperInventory> findAll() {
-		return prepInv.findAll();
+		return repo.findAll();
 	}
 
 	@Override
-	public PrepperInventory findById() {
-		// TODO Auto-generated method stub
+	public PrepperInventory findById(int id) {
+		return repo.findById(id).orElse(null);
+	}
+
+	@Override
+	public PrepperInventory create(PrepperInventory category) {
+		return repo.save(category);
+	}
+
+	@Override
+	public PrepperInventory update(int id, PrepperInventory category) {
+		if (repo.existsById(id)) {
+			category.setId(id);
+			return repo.save(category);
+		}
 		return null;
 	}
 
 	@Override
-	public PrepperInventory create(PrepperInventory newPrep) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PrepperInventory update(int prepId, PrepperInventory prep) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deleteById(int prepId) {
-		// TODO Auto-generated method stub
+	public boolean deleteById(int id) {
+		if (repo.existsById(id)) {
+			repo.deleteById(id);
+			return true;
+		}
 		return false;
 	}
 

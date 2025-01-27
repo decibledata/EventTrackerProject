@@ -8,12 +8,12 @@ public interface PrepperInventoryService {
 
 	List<PrepperInventory> findAll();
 
-	PrepperInventory findById();
+	PrepperInventory findById(int id);
 
-	PrepperInventory create(PrepperInventory newPrep);
+	PrepperInventory create(PrepperInventory category);
 
-	PrepperInventory update(int prepId, PrepperInventory prep);
+	PrepperInventory update(int id, PrepperInventory category);
 
-	boolean deleteById(int prepId);
+	boolean deleteById(int id);
 
 }

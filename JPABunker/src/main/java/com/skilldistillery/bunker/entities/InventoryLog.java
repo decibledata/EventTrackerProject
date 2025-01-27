@@ -21,11 +21,11 @@ public class InventoryLog {
 	
 	@ManyToOne
 	@JoinColumn(name = "inventory_id")
-	private int inventory_id;
+	private int inventoryId;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private int user_id;
+	private int userId;
 	
 	private LocalDateTime timestamp;
 	
@@ -40,19 +40,19 @@ public class InventoryLog {
 	}
 
 	public int getInventory_id() {
-		return inventory_id;
+		return inventoryId;
 	}
 
 	public void setInventory_id(int inventory_id) {
-		this.inventory_id = inventory_id;
+		this.inventoryId = inventory_id;
 	}
 
 	public int getUser_id() {
-		return user_id;
+		return userId;
 	}
 
 	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+		this.userId = user_id;
 	}
 
 	public LocalDateTime getTimestamp() {
@@ -73,7 +73,7 @@ public class InventoryLog {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, inventory_id, notes, timestamp, user_id);
+		return Objects.hash(id, inventoryId, notes, timestamp, userId);
 	}
 
 	@Override
@@ -85,13 +85,13 @@ public class InventoryLog {
 		if (getClass() != obj.getClass())
 			return false;
 		InventoryLog other = (InventoryLog) obj;
-		return id == other.id && inventory_id == other.inventory_id && Objects.equals(notes, other.notes)
-				&& Objects.equals(timestamp, other.timestamp) && user_id == other.user_id;
+		return id == other.id && inventoryId == other.inventoryId && Objects.equals(notes, other.notes)
+				&& Objects.equals(timestamp, other.timestamp) && userId == other.userId;
 	}
 
 	@Override
 	public String toString() {
-		return "InventoryLog [id=" + id + ", inventory_id=" + inventory_id + ", user_id=" + user_id + ", timestamp="
+		return "InventoryLog [id=" + id + ", inventory_id=" + inventoryId + ", user_id=" + userId + ", timestamp="
 				+ timestamp + ", notes=" + notes + "]";
 	}
 	
