@@ -2,6 +2,8 @@ package com.skilldistillery.bunker.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.skilldistillery.bunker.entities.User;
 
 public interface UserService {
