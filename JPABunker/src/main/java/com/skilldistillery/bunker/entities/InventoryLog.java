@@ -14,21 +14,19 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "inventory_log")
 public class InventoryLog {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "inventory_id")
-	private int inventoryId;
-	
+	@JoinColumn(name = "inventoryld")
+	private Inventory inventory;
+
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private int userId;
-	
+	@JoinColumn(name = "userld")
+	private User user;
+
 	private LocalDateTime timestamp;
-	
 	private String notes;
 
 	public int getId() {
@@ -39,20 +37,20 @@ public class InventoryLog {
 		this.id = id;
 	}
 
-	public int getInventory_id() {
-		return inventoryId;
+	public Inventory getInventory() {
+		return inventory;
 	}
 
-	public void setInventory_id(int inventory_id) {
-		this.inventoryId = inventory_id;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
-	public int getUser_id() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser_id(int user_id) {
-		this.userId = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public LocalDateTime getTimestamp() {
@@ -73,7 +71,7 @@ public class InventoryLog {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, inventoryId, notes, timestamp, userId);
+		return Objects.hash(id, inventory, notes, timestamp, user);
 	}
 
 	@Override
@@ -85,16 +83,14 @@ public class InventoryLog {
 		if (getClass() != obj.getClass())
 			return false;
 		InventoryLog other = (InventoryLog) obj;
-		return id == other.id && inventoryId == other.inventoryId && Objects.equals(notes, other.notes)
-				&& Objects.equals(timestamp, other.timestamp) && userId == other.userId;
+		return id == other.id && Objects.equals(inventory, other.inventory) && Objects.equals(notes, other.notes)
+				&& Objects.equals(timestamp, other.timestamp) && Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
-		return "InventoryLog [id=" + id + ", inventory_id=" + inventoryId + ", user_id=" + userId + ", timestamp="
-				+ timestamp + ", notes=" + notes + "]";
+		return "InventoryLog [id=" + id + ", inventory=" + inventory + ", user=" + user + ", timestamp=" + timestamp
+				+ ", notes=" + notes + "]";
 	}
-	
-	
 
 }

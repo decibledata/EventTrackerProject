@@ -1,26 +1,35 @@
 package com.skilldistillery.bunker.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "user")
 public class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String username;
-	
 	private String password;
-	
 	private String email;
+
+	@OneToMany(mappedBy = "user") // Relationship with InventoryLog
+	private List<InventoryLog> inventoryLogs;
+
+	@ManyToMany
+	@JoinTable(name = "user_category", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories;
 
 	public int getId() {
 		return id;
@@ -54,9 +63,25 @@ public class User {
 		this.email = email;
 	}
 
+	public List<InventoryLog> getInventoryLogs() {
+		return inventoryLogs;
+	}
+
+	public void setInventoryLogs(List<InventoryLog> inventoryLogs) {
+		this.inventoryLogs = inventoryLogs;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, id, password, username);
+		return Objects.hash(categories, email, id, inventoryLogs, password, username);
 	}
 
 	@Override
@@ -68,14 +93,15 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(email, other.email) && id == other.id && Objects.equals(password, other.password)
+		return Objects.equals(categories, other.categories) && Objects.equals(email, other.email) && id == other.id
+				&& Objects.equals(inventoryLogs, other.inventoryLogs) && Objects.equals(password, other.password)
 				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", inventoryLogs=" + inventoryLogs + ", categories=" + categories + "]";
 	}
-	
-	
+
 }

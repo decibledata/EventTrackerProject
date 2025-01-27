@@ -3,8 +3,6 @@
 	<persistence-unit name="JPABunker">
 
 	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-		<class>com.skilldistillery.bunker.entities.PrepperInventory</class>
 	
 		<properties>
 			<property name="jakarta.persistence.jdbc.url"
