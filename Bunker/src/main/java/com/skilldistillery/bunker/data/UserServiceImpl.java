@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	//PUT
 	@Override
 	public User update(int id, User user) {
 		Optional<User> existingUser = userRepo.findById(id);
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	//DELETE
 	@Override
 	public boolean deleteById(int id) {
 		try {
