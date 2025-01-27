@@ -22,7 +22,7 @@ public class Inventory {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id") // Foreign key column
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	private String name;

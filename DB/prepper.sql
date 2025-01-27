@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `inventory_item` (
   `quantity` INT NULL,
   `unit` VARCHAR(45) NULL,
   `expiration` DATETIME NULL,
-  `addded_at` DATETIME NULL,
+  `included_date` DATETIME NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_inventory_item_inventory1_idx` (`inventory_id` ASC) VISIBLE,
   CONSTRAINT `fk_inventory_item_inventory1`
@@ -215,11 +215,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `addded_at`) VALUES (1, 1, 'Canned Beans', 20, 'cans', '2026-01-01', '2025-01-01 10:10:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `addded_at`) VALUES (2, 1, 'Bottled Water', 50, 'liters', '2025-12-31', '2025-01-01 10:15:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `addded_at`) VALUES (3, 4, 'Alcohol Pads', 100, 'pieces', '2025-01-02', '2025-01-02 11:10:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `addded_at`) VALUES (4, 2, 'Batteries', 40, 'pieces', '2025-01-03 ', '2025-01-03 12:30:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `addded_at`) VALUES (5, NULL, 'Ammo Boxes', 20, 'boxes', '2027-01-01', '2025-01-03 12:40:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (1, 1, 'Canned Beans', 20, 'cans', '2026-01-01', '2025-01-01 10:10:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (2, 1, 'Bottled Water', 50, 'liters', '2025-12-31', '2025-01-01 10:15:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (3, 4, 'Alcohol Pads', 100, 'pieces', '2025-01-02', '2025-01-02 11:10:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (4, 2, 'Batteries', 40, 'pieces', '2025-01-03 ', '2025-01-03 12:30:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (5, NULL, 'Ammo Boxes', 20, 'boxes', '2027-01-01', '2025-01-03 12:40:00');
 
 COMMIT;
 

@@ -29,10 +29,10 @@ public class InventoryItem {
 	private int quantity;
 	private String unit;
 	private LocalDateTime expiration;
-	private LocalDateTime addedAt;
+	private LocalDateTime includedDate;
 
 	@ManyToMany
-	@JoinTable(name = "item_has_category", joinColumns = @JoinColumn(name = "inventory_item_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(name = "inventory_id")
 	private List<Category> categories;
 
 	public int getId() {
@@ -84,11 +84,11 @@ public class InventoryItem {
 	}
 
 	public LocalDateTime getAddedAt() {
-		return addedAt;
+		return includedDate;
 	}
 
 	public void setAddedAt(LocalDateTime addedAt) {
-		this.addedAt = addedAt;
+		this.includedDate = addedAt;
 	}
 
 	public List<Category> getCategories() {
@@ -101,7 +101,7 @@ public class InventoryItem {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addedAt, categories, expiration, id, inventory, name, quantity, unit);
+		return Objects.hash(includedDate, categories, expiration, id, inventory, name, quantity, unit);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class InventoryItem {
 		if (getClass() != obj.getClass())
 			return false;
 		InventoryItem other = (InventoryItem) obj;
-		return Objects.equals(addedAt, other.addedAt) && Objects.equals(categories, other.categories)
+		return Objects.equals(includedDate, other.includedDate) && Objects.equals(categories, other.categories)
 				&& Objects.equals(expiration, other.expiration) && id == other.id
 				&& Objects.equals(inventory, other.inventory) && Objects.equals(name, other.name)
 				&& quantity == other.quantity && Objects.equals(unit, other.unit);
@@ -122,7 +122,7 @@ public class InventoryItem {
 	@Override
 	public String toString() {
 		return "InventoryItem [id=" + id + ", inventory=" + inventory + ", name=" + name + ", quantity=" + quantity
-				+ ", unit=" + unit + ", expiration=" + expiration + ", addedAt=" + addedAt + ", categories="
+				+ ", unit=" + unit + ", expiration=" + expiration + ", addedAt=" + includedDate + ", categories="
 				+ categories + "]";
 	}
 
