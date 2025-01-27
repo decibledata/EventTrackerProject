@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.bunker.entities.User;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id, HttpServletResponse resp) {
+    public void deleteUser(@PathVariable("id") int id, HttpServletResponse resp) {
     	try {
     		if (userService.deleteById(id)) {
     			resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
