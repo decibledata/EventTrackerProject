@@ -7,9 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -24,12 +21,13 @@ public class User {
 	private String password;
 	private String email;
 
-	@OneToMany(mappedBy = "user") // Relationship with InventoryLog
+	@OneToMany(mappedBy = "user") 
 	private List<InventoryLog> inventoryLogs;
+	
 
-	@ManyToMany
-	@JoinTable(name = "user_category", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private List<Category> categories;
+	public User() {
+		super();
+	}
 
 	public int getId() {
 		return id;
@@ -71,17 +69,10 @@ public class User {
 		this.inventoryLogs = inventoryLogs;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(categories, email, id, inventoryLogs, password, username);
+		return Objects.hash(email, id, inventoryLogs, password, username);
 	}
 
 	@Override
@@ -93,7 +84,7 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(categories, other.categories) && Objects.equals(email, other.email) && id == other.id
+		return Objects.equals(email, other.email) && id == other.id
 				&& Objects.equals(inventoryLogs, other.inventoryLogs) && Objects.equals(password, other.password)
 				&& Objects.equals(username, other.username);
 	}
@@ -101,7 +92,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", inventoryLogs=" + inventoryLogs + ", categories=" + categories + "]";
+				+ ", inventoryLogs=" + inventoryLogs + "]";
 	}
-
 }

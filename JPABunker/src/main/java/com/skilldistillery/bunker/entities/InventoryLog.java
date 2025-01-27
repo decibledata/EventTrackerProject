@@ -19,11 +19,11 @@ public class InventoryLog {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "inventoryld")
+	@JoinColumn(name = "inventory_id")
 	private Inventory inventory;
 
 	@ManyToOne
-	@JoinColumn(name = "userld")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	private LocalDateTime timestamp;

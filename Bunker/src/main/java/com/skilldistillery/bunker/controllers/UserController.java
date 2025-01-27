@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skilldistillery.bunker.entities.User;
 import com.skilldistillery.bunker.services.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -38,7 +40,16 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteUser(@PathVariable int id) {
-        return userService.deleteById(id);
+    public void deleteUser(@PathVariable int id, HttpServletResponse resp) {
+    	try {
+    		if (userService.deleteById(id)) {
+    			resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    		} else {
+    			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    		}
+    	} catch (Exception e) {
+    		resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    		e.printStackTrace();
+    	}
     }
 }

@@ -23,8 +23,6 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private List<InventoryItem> inventoryItems;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<User> users;
 
 	public int getId() {
 		return id;
@@ -58,17 +56,9 @@ public class Category {
 		this.inventoryItems = inventoryItems;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, id, inventoryItems, name, users);
+		return Objects.hash(description, id, inventoryItems, name);
 	}
 
 	@Override
@@ -82,13 +72,13 @@ public class Category {
 		Category other = (Category) obj;
 		return Objects.equals(description, other.description) && id == other.id
 				&& Objects.equals(inventoryItems, other.inventoryItems) && Objects.equals(name, other.name)
-				&& Objects.equals(users, other.users);
+				;
 	}
 
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", description=" + description + ", inventoryItems="
-				+ inventoryItems + ", users=" + users + "]";
+				+ inventoryItems + "]";
 	}
     
     
