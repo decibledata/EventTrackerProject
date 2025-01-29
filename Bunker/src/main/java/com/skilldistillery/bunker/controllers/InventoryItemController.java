@@ -48,5 +48,4 @@ public class InventoryItemController {
 	public void deleteInventoryItem(@PathVariable("id") int id) {
 		inventoryItemService.deleteById(id);
 	}
-
 }

@@ -42,10 +42,10 @@ public class InventoryController {
 	public ResponseEntity<Inventory> createInventory(@RequestBody Inventory inv) {
 		try {
 			inv = inventoryService.create(inv);
-			return new ResponseEntity<>(inv, HttpStatus.CREATED); 
+			return new ResponseEntity<>(inv, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -53,17 +53,17 @@ public class InventoryController {
 	public ResponseEntity<Inventory> updateInventory(@PathVariable("id") int id, @RequestBody Inventory inventory) {
 		Inventory updatedInventory = inventoryService.update(id, inventory);
 		if (updatedInventory == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(updatedInventory, HttpStatus.OK); 
+		return new ResponseEntity<>(updatedInventory, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteInventory(@PathVariable("id") int id) {
 		if (inventoryService.deleteById(id)) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -2,7 +2,6 @@ package com.skilldistillery.bunker.services;
 
 import java.util.List;
 
-import com.skilldistillery.bunker.entities.Inventory;
 import com.skilldistillery.bunker.entities.InventoryLog;
 
 public interface InventoryLogService {

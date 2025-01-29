@@ -19,21 +19,21 @@ import com.skilldistillery.bunker.services.InventoryLogService;
 @RestController
 @RequestMapping("api/inventorylogs")
 public class InventoryLogController {
-	
+
 	@Autowired
 	private InventoryLogService inventoryLogService;
-	
+
 	@GetMapping
 	public List<InventoryLog> listAllLogs() {
 		return inventoryLogService.findAll();
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<InventoryLog> findById(@PathVariable("id") int id) {
 		InventoryLog log = inventoryLogService.findById(id);
 		return log != null ? ResponseEntity.ok(log) : ResponseEntity.notFound().build();
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<InventoryLog> createInventoryLog(@RequestBody InventoryLog inventoryLog) {
 		InventoryLog createdLog = inventoryLogService.create(inventoryLog);
@@ -41,7 +41,8 @@ public class InventoryLogController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<InventoryLog> updateInventoryLog(@PathVariable("id") int id, @RequestBody InventoryLog inventoryLog) {
+	public ResponseEntity<InventoryLog> updateInventoryLog(@PathVariable("id") int id,
+			@RequestBody InventoryLog inventoryLog) {
 		InventoryLog updatedLog = inventoryLogService.update(id, inventoryLog);
 		return updatedLog != null ? ResponseEntity.ok(updatedLog) : ResponseEntity.notFound().build();
 	}
