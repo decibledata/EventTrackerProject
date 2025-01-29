@@ -10,40 +10,46 @@ import com.skilldistillery.bunker.entities.Inventory;
 import com.skilldistillery.bunker.repositories.InventoryRepository;
 import com.skilldistillery.bunker.services.InventoryService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class InventoryServiceImpl implements InventoryService {
 
-    @Autowired
-    private InventoryRepository inventoryRepo;
+	@Autowired
+	private InventoryRepository inventoryRepo;
 
-    @Override
-    public List<Inventory> findAll() {
-        return inventoryRepo.findAll();
-    }
+	@Override
+	public List<Inventory> findAll() {
+		return inventoryRepo.findAll();
+	}
 
-    @Override
-    public Inventory findById(int id) {
-        Optional<Inventory> inventory = inventoryRepo.findById(id);
-        return inventory.orElse(null);
-    }
+	@Override
+	public Inventory findById(int id) {
+		Optional<Inventory> inventory = inventoryRepo.findById(id);
+		return inventory.orElse(null);
+	}
 
-    @Override
-    public Inventory create(Inventory inventory) {
-        return inventoryRepo.save(inventory);
-    }
+	@Override
+	public Inventory create(Inventory inventory) {
+		return inventoryRepo.save(inventory);
+	}
 
-    @Override
-    public Inventory update(int id, Inventory inventory) {
-        if (inventoryRepo.existsById(id)) {
-            inventory.setId(id);
-            return inventoryRepo.save(inventory);
-        }
-        return null;
-    }
+	@Override
+	public Inventory update(int id, Inventory inventory) {
+		if (inventoryRepo.existsById(id)) {
+			inventory.setId(id);
+			return inventoryRepo.save(inventory);
+		}
+		return null;
+	}
 
-    @Override
-    public void deleteById(int id) {
-        inventoryRepo.deleteById(id);
-    }
-
+	@Override
+	public boolean deleteById(int id) {
+		if (inventoryRepo.existsById(id)) {
+			inventoryRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 }

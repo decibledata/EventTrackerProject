@@ -23,6 +23,7 @@ public class InventoryItem {
 
 	@ManyToOne
 	@JoinColumn(name = "inventory_id")
+	@JsonBackReference
 	private Inventory inventory;
 
 	private String name;

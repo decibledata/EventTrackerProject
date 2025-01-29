@@ -3,6 +3,8 @@ package com.skilldistillery.bunker.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,25 +28,42 @@ public class InventoryController {
 	public List<Inventory> listAllInventory() {
 		return inventoryService.findAll();
 	}
-	
+
 	@GetMapping("/{id}")
-	public Inventory findById(@PathVariable("id") int id) {
-		return inventoryService.findById(id);
+	public ResponseEntity<Inventory> findById(@PathVariable("id") int id) {
+		Inventory inventory = inventoryService.findById(id);
+		if (inventory == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(inventory, HttpStatus.OK);
 	}
-	
-	
+
 	@PostMapping
-	public Inventory createInventory(@RequestBody Inventory inv) {
-		return inventoryService.create(inv);
+	public ResponseEntity<Inventory> createInventory(@RequestBody Inventory inv) {
+		try {
+			inv = inventoryService.create(inv);
+			return new ResponseEntity<>(inv, HttpStatus.CREATED); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+		}
 	}
-	
+
 	@PutMapping("/{id}")
-	public Inventory updateInventory(@PathVariable("id")int id, Inventory inventory) {
-	        return inventoryService.update(id, inventory);
+	public ResponseEntity<Inventory> updateInventory(@PathVariable("id") int id, @RequestBody Inventory inventory) {
+		Inventory updatedInventory = inventoryService.update(id, inventory);
+		if (updatedInventory == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+		}
+		return new ResponseEntity<>(updatedInventory, HttpStatus.OK); 
 	}
-	
+
 	@DeleteMapping("/{id}")
-    public void deleteInventory(@PathVariable("id") int id) {
-        inventoryService.deleteById(id);
-    }
+	public ResponseEntity<Void> deleteInventory(@PathVariable("id") int id) {
+		if (inventoryService.deleteById(id)) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+		}
+	}
 }

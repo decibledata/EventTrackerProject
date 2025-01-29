@@ -12,7 +12,7 @@ public interface InventoryService {
 
 	Inventory create(Inventory inv);
 
-	void deleteById(int id);
+	boolean deleteById(int id);
 
 	Inventory update(int id, Inventory inventory);
 

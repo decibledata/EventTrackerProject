@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,11 +31,13 @@ public class Inventory {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	@OneToMany(mappedBy = "inventory")
+	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<InventoryLog> inventoryLogs;
-
-	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
-	private List<InventoryItem> inventoryItems;
+	
+	public Inventory() {
+		super();
+	}
 
 	public int getId() {
 		return id;
@@ -92,17 +95,9 @@ public class Inventory {
 		this.inventoryLogs = inventoryLogs;
 	}
 
-	public List<InventoryItem> getInventoryItems() {
-		return inventoryItems;
-	}
-
-	public void setInventoryItems(List<InventoryItem> inventoryItems) {
-		this.inventoryItems = inventoryItems;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(createdAt, description, id, inventoryItems, inventoryLogs, name, updatedAt, user);
+		return Objects.hash(createdAt, description, id, inventoryLogs, name, updatedAt, user);
 	}
 
 	@Override
@@ -115,16 +110,16 @@ public class Inventory {
 			return false;
 		Inventory other = (Inventory) obj;
 		return Objects.equals(createdAt, other.createdAt) && Objects.equals(description, other.description)
-				&& id == other.id && Objects.equals(inventoryItems, other.inventoryItems)
-				&& Objects.equals(inventoryLogs, other.inventoryLogs) && Objects.equals(name, other.name)
-				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(user, other.user);
+				&& id == other.id && Objects.equals(inventoryLogs, other.inventoryLogs)
+				&& Objects.equals(name, other.name) && Objects.equals(updatedAt, other.updatedAt)
+				&& Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
 		return "Inventory [id=" + id + ", user=" + user + ", name=" + name + ", description=" + description
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", inventoryLogs=" + inventoryLogs
-				+ ", inventoryItems=" + inventoryItems + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", inventoryLogs=" + inventoryLogs + "]";
 	}
+
 
 }
