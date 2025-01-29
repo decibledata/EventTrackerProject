@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,7 +34,9 @@ public class InventoryItem {
 	private LocalDateTime includedDate;
 
 	@ManyToMany
-	@JoinTable(name = "inventory_id")
+	@JoinTable(name = "item_has_category",
+			joinColumns = @JoinColumn(name = "inventory_item_id"),
+			inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories;
 
 	public int getId() {

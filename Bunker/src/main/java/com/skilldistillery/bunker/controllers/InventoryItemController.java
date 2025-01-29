@@ -3,6 +3,7 @@ package com.skilldistillery.bunker.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +29,9 @@ public class InventoryItemController {
 	}
 
 	@GetMapping("/{id}")
-	public InventoryItem findById(@PathVariable("id") int id) {
-		return inventoryItemService.findById(id);
+	public ResponseEntity<InventoryItem> findById(@PathVariable("id") int id) {
+		InventoryItem item = inventoryItemService.findById(id);
+		return item != null ? ResponseEntity.ok(item) : ResponseEntity.notFound().build();
 	}
 
 	@PostMapping

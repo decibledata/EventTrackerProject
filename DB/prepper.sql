@@ -71,8 +71,6 @@ DROP TABLE IF EXISTS `inventory_log` ;
 
 CREATE TABLE IF NOT EXISTS `inventory_log` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `inventoryId` INT NULL,
-  `userId` INT NULL,
   `timestamp` DATETIME NULL,
   `notes` VARCHAR(255) NULL,
   `inventory_id` INT NULL,
@@ -200,12 +198,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (1, 1, 2, '2025-01-25 10:30:00', 'Added 20 units of canned beans to inventory', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (2, 2, 1, '2025-01-22 14:45:00', 'Updated quantity of bottled water to 50 units', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (3, 3, 3, '2025-01-24 09:00:00', 'Removed expired first-aid supplpies from inventory', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (4, 4, 2, '2025-01-26 16:15:00', 'Restocked 10 units of flashlight batteries', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (5, 5, 5, '2025-01-26 12:00:00', 'Moved fuel canisters to secondary storage location', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `inventoryId`, `userId`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (6, 6, 4, '2025-01-27 08:30:00', 'Added new shipment of thermal blankets', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (1, '2025-01-25 10:30:00', 'Added 20 units of canned beans to inventory', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (2, '2025-01-22 14:45:00', 'Updated quantity of bottled water to 50 units', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (3, '2025-01-24 09:00:00', 'Removed expired first-aid supplpies from inventory', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (4, '2025-01-26 16:15:00', 'Restocked 10 units of flashlight batteries', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (5, '2025-01-26 12:00:00', 'Moved fuel canisters to secondary storage location', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (6, '2025-01-27 08:30:00', 'Added new shipment of thermal blankets', NULL, NULL);
 
 COMMIT;
 

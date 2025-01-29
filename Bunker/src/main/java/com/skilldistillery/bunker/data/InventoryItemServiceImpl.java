@@ -10,7 +10,10 @@ import com.skilldistillery.bunker.entities.InventoryItem;
 import com.skilldistillery.bunker.repositories.InventoryItemRepository;
 import com.skilldistillery.bunker.services.InventoryItemService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class InventoryItemServiceImpl implements InventoryItemService {
 
 	@Autowired
