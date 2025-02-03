@@ -112,12 +112,12 @@ function displayInventoryList(inventories) {
 
 	inventories.forEach(inv => {
 
-		let userId = inv.user.id;
-		let username = inv.user.username;
+		let userId = inv.id;
+		let username = inv.username;
 
 		let userHeader = document.createElement('li');
 		userHeader.classList.add('list-group-item', 'list-group-item-primary');
-		userHeader.textContent = `User ID: ${userId} - ${username}'s Inventory`;
+		userHeader.textContent = `User ID: ${userId} - ${user}'s Inventory`;
 		inventoryList.appendChild(userHeader);
 
 		if (!inv.items || inv.items.length === 0) {
@@ -129,7 +129,7 @@ function displayInventoryList(inventories) {
 			inv.items.forEach(item => {
 				let listItem = document.createElement('li');
 				listItem.classList.add('list-group-item');
-				listItem.textContent = `Inventory: ${inv.name} - ${inv.description}`;
+				listItem.textContent = `Item: ${item.name}, Quantity: ${item.quantity}`;
 				inventoryList.appendChild(listItem);
 			});
 		}
