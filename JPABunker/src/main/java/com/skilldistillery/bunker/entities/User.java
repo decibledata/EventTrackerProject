@@ -2,6 +2,9 @@ package com.skilldistillery.bunker.entities;
 
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +23,7 @@ public class User {
 	private String password;
 	private String email;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "user") 
 	private List<InventoryLog> inventoryLogs;
 	

@@ -1,0 +1,176 @@
+body {
+	background-color: rgb(20, 40, 25);
+	font-family: 'OCRA', monospace;
+	text-shadow: 0 0 5px rgb(94, 255, 0);
+	padding: 20px;
+	color: rgb(94, 255, 0);
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100vh;
+	
+	}
+	
+	.usercontainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	
+	}
+	
+	
+.menu {
+	background-color: transparent;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+}
+.textheader {
+	font-size: 3em;
+	letter-spacing: 5px;
+	font-family: 'OCRA', monospace;
+	text-shadow: 0 0 5px rgb(94, 255, 0);
+	color: rgb(94, 255, 0);
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	animation: 
+		typing 1s steps(21);
+}
+
+.text {
+	font-size: 2em;
+	letter-spacing: 5px;
+	font-family: 'OCRA', monospace;
+	color: rgb(94, 255, 0);
+	white-space: nowrap;
+	overflow: hidden;
+}
+/* typing effect  */
+@keyframes typing {
+	from { width: 0}
+}
+
+.btn-primary {
+    font-size: 24px;
+    padding: 15px 30px; 
+    background-color: rgb(94, 255, 0); 
+    color: rgb(20, 45, 25); 
+    border: 2px solid rgb(94, 255, 0);
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2 ease;
+    font-weight: bold;
+    text-shadow: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0)
+    
+}
+
+.btn-secondary {
+    font-size: 24px;
+    padding: 15px 30px; 
+    background-color: rgb(94, 255, 0); 
+    color: rgb(20, 45, 25); 
+    border: 2px solid rgb(94, 255, 0);
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2 ease;
+    font-weight: bold;
+    text-shadow: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0)
+    
+}
+
+custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgb(20, 45, 25);
+    border: 2px solid rgb(94, 255, 0);
+    margin-top: 20px;
+    color: rgb(94, 255, 0);
+}
+
+th, td {
+    padding: 10px;
+    background-color: rgb(20, 45, 25);
+    border: 1px solid rgb(94, 255, 0);
+    text-align: center;
+    text-shadow: 0 0 5px rgb(94, 255, 0);
+}
+
+th {
+    background-color: rgba(94, 255, 0, 0.2);
+}
+
+.btn-inventory {
+    background-color: rgb(94, 255, 0);
+    color: rgb(20, 45, 25);
+    border: 2px solid rgb(94, 255, 0);
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-inventory:hover {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0);
+}
+
+@keyframes fadeInDown{
+	from {
+	opacity: 0;
+	transform: translateY(-20px);
+	}
+	to {
+	opacity: 1;
+	transform: translateY(0);
+	}
+}
+
+.fade-in {
+	opacity: 0;
+	animation: fadeInDown 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInTable {
+	from {
+	opacity: 0;
+	}
+	to {
+	opacity: 1;
+	}
+}
+
+.fade-in-row {
+	opacity: 0;
+	animation: fadeInDown 0.5s ease-in-out forwards;
+}

@@ -198,12 +198,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (1, '2025-01-25 10:30:00', 'Added 20 units of canned beans to inventory', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (2, '2025-01-22 14:45:00', 'Updated quantity of bottled water to 50 units', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (3, '2025-01-24 09:00:00', 'Removed expired first-aid supplpies from inventory', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (4, '2025-01-26 16:15:00', 'Restocked 10 units of flashlight batteries', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (5, '2025-01-26 12:00:00', 'Moved fuel canisters to secondary storage location', NULL, NULL);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (6, '2025-01-27 08:30:00', 'Added new shipment of thermal blankets', NULL, NULL);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (1, '2025-01-25 10:30:00', 'Added 20 units of canned beans to inventory', 1, 1);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (2, '2025-01-22 14:45:00', 'Updated quantity of bottled water to 50 units', 2, 2);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (3, '2025-01-24 09:00:00', 'Removed expired first-aid supplpies from inventory', 3, 3);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (4, '2025-01-26 16:15:00', 'Restocked 10 units of flashlight batteries', 4, 4);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (5, '2025-01-26 12:00:00', 'Moved fuel canisters to secondary storage location', 5, 5);
+INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (6, '2025-01-26 12:25:00', 'Obtained shipmemt of thermal blankets', 5, 1);
 
 COMMIT;
 
@@ -217,7 +217,7 @@ INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, 
 INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (2, 1, 'Bottled Water', 50, 'liters', '2025-12-31', '2025-01-01 10:15:00');
 INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (3, 4, 'Alcohol Pads', 100, 'pieces', '2025-01-02', '2025-01-02 11:10:00');
 INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (4, 2, 'Batteries', 40, 'pieces', '2025-01-03 ', '2025-01-03 12:30:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (5, NULL, 'Ammo Boxes', 20, 'boxes', '2027-01-01', '2025-01-03 12:40:00');
+INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (5, 3, 'Ammo Boxes', 20, 'boxes', '2027-01-01', '2025-01-03 12:40:00');
 
 COMMIT;
 
