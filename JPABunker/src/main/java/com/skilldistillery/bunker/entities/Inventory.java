@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -32,6 +33,18 @@ public class Inventory {
 	private String description;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	
+	@OneToMany(mappedBy = "inventory")
+	@JsonIgnoreProperties({"inventory"})
+	List<InventoryItem> inventoryItems;
+
+	public List<InventoryItem> getInventoryItems() {
+		return inventoryItems;
+	}
+
+	public void setInventoryItems(List<InventoryItem> inventoryItems) {
+		this.inventoryItems = inventoryItems;
+	}
 
 	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore

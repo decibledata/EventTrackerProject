@@ -8,7 +8,16 @@ window.addEventListener('load', function(e) {
 function init() {
 	console.log('In init()');
 
-	loadMenuList();
+
+	let fileName = window.location.pathname.split("/").pop();
+	console.log(fileName)
+	console.log(window.location.pathname)
+	if (fileName === "users.html") {
+		loadMenuList()
+	} else if
+		(fileName === "inventory.html") {
+			loadInventory();
+	}
 
 }
 
@@ -36,6 +45,7 @@ function displayUserList(users) {
 	//DOM to build table rows, append to tbody
 	let table = document.getElementById('userTable')
 	let tbody = document.getElementById('menuListBody');
+	//	let tbody = document.getElementById('inventoryListBody')
 	tbody.textContent = '';
 
 	table.style.opacity = '0';
@@ -117,21 +127,21 @@ function displayInventoryList(inventories) {
 
 		let userHeader = document.createElement('li');
 		userHeader.classList.add('list-group-item', 'list-group-item-primary');
-		userHeader.textContent = `User ID: ${userId} - ${user}'s Inventory`;
+		userHeader.textContent = `User ID: ${userId} - ${username}'s Inventory`;
 		inventoryList.appendChild(userHeader);
 
-		if (!inv.items || inv.items.length === 0) {
+		if (!inv.inventoryItems || inv.inventoryItems.length === 0) {
 			let emptyItem = document.createElement('li');
 			emptyItem.classList.add('list-group-item');
 			emptyItem.textContent = 'No items in inventory';
 			inventoryList.appendChild(emptyItem);
 		} else {
-			inv.items.forEach(item => {
+			inv.inventoryItems.forEach(item => {
 				let listItem = document.createElement('li');
 				listItem.classList.add('list-group-item');
 				listItem.textContent = `Item: ${item.name}, Quantity: ${item.quantity}`;
 				inventoryList.appendChild(listItem);
-			});
+			})
 		}
 	});
 }
