@@ -145,6 +145,28 @@ th {
     text-shadow: 0 0 10px rgb(94, 255, 0);
 }
 
+.btn-index-inventory {
+    font-size: 24px;
+    padding: 15px 4px; 
+    background-color: rgb(94, 255, 0); 
+    color: rgb(20, 45, 25); 
+    border: 2px solid rgb(94, 255, 0);
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2 ease;
+    font-weight: bold;
+    text-shadow: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-index-inventory:hover {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0);
+}
+
 @keyframes fadeInDown{
 	from {
 	opacity: 0;
@@ -173,4 +195,69 @@ th {
 .fade-in-row {
 	opacity: 0;
 	animation: fadeInDown 0.5s ease-in-out forwards;
+}
+
+.btn-secondary {
+    font-size: 24px;
+    padding: 15px 30px;
+    background-color: rgb(94, 255, 0);
+    color: rgb(20, 45, 25);
+    border: 2px solid rgb(94, 255, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2 ease;
+    font-weight: bold;
+    text-shadow: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0);
+}
+
+.custom-list {
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-list li {
+    background-color: rgb(20, 45, 25);
+    color: rgb(94, 255, 0);
+    border: 2px solid rgb(94, 255, 0);
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-shadow: 0 0 5px rgb(94, 255, 0);
+    font-size: 18px;
+    font-family: 'OCRA', monospace;
+    align-items: center;
+    animation: fadeInDown 0.5s ease-in-out forwards;
+}
+
+.custom-list li:hover {
+    background-color: rgb(94, 255, 0);
+    color: rgb(20, 45, 25);
+    border-color: rgb(94, 255, 0);
+    text-shadow: 0 0 10px rgb(94, 255, 0);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.fade-in-row {
+    opacity: 0;
+    animation: fadeInDown 0.5s ease-in-out forwards;
 }
