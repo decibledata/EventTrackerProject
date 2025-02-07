@@ -1,18 +1,15 @@
 package com.skilldistillery.bunker.entities;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Locale.Category;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -23,22 +20,16 @@ public class InventoryItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "inventory_id")
-	@JsonBackReference
-	private Inventory inventory;
-
 	private String name;
-	private int quantity;
-	private String unit;
-	private LocalDateTime expiration;
-	private LocalDateTime includedDate;
 
-	@ManyToMany
-	@JoinTable(name = "item_has_category",
-			joinColumns = @JoinColumn(name = "inventory_item_id"),
-			inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private List<Category> categories;
+	@Enumerated(EnumType.STRING)
+	private Category category;
+
+	private int quantity;
+
+	@ManyToOne
+	@JoinColumn(name = "vault_id")
+	private Vault vault;
 
 	public int getId() {
 		return id;
@@ -46,14 +37,6 @@ public class InventoryItem {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
 	}
 
 	public String getName() {
@@ -64,6 +47,14 @@ public class InventoryItem {
 		this.name = name;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -72,41 +63,23 @@ public class InventoryItem {
 		this.quantity = quantity;
 	}
 
-	public String getUnit() {
-		return unit;
+	public Vault getVault() {
+		return vault;
 	}
 
-	public void setUnit(String unit) {
-		this.unit = unit;
+	public void setVault(Vault vault) {
+		this.vault = vault;
 	}
 
-	public LocalDateTime getExpiration() {
-		return expiration;
-	}
-
-	public void setExpiration(LocalDateTime expiration) {
-		this.expiration = expiration;
-	}
-
-	public LocalDateTime getAddedAt() {
-		return includedDate;
-	}
-
-	public void setAddedAt(LocalDateTime addedAt) {
-		this.includedDate = addedAt;
-	}
-
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	@Override
+	public String toString() {
+		return "InventoryItem [id=" + id + ", name=" + name + ", category=" + category + ", quantity=" + quantity
+				+ ", vault=" + vault + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(includedDate, categories, expiration, id, inventory, name, quantity, unit);
+		return Objects.hash(category, id, name, quantity, vault);
 	}
 
 	@Override
@@ -118,17 +91,8 @@ public class InventoryItem {
 		if (getClass() != obj.getClass())
 			return false;
 		InventoryItem other = (InventoryItem) obj;
-		return Objects.equals(includedDate, other.includedDate) && Objects.equals(categories, other.categories)
-				&& Objects.equals(expiration, other.expiration) && id == other.id
-				&& Objects.equals(inventory, other.inventory) && Objects.equals(name, other.name)
-				&& quantity == other.quantity && Objects.equals(unit, other.unit);
-	}
-
-	@Override
-	public String toString() {
-		return "InventoryItem [id=" + id + ", inventory=" + inventory + ", name=" + name + ", quantity=" + quantity
-				+ ", unit=" + unit + ", expiration=" + expiration + ", addedAt=" + includedDate + ", categories="
-				+ categories + "]";
+		return category == other.category && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& quantity == other.quantity && Objects.equals(vault, other.vault);
 	}
 
 }

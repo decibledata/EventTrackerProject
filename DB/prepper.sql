@@ -16,76 +16,73 @@ CREATE SCHEMA IF NOT EXISTS `prepperdb` DEFAULT CHARACTER SET utf8 ;
 USE `prepperdb` ;
 
 -- -----------------------------------------------------
--- Table `category`
+-- Table `vault-tec-employee`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `category` ;
+DROP TABLE IF EXISTS `vault-tec-employee` ;
 
-CREATE TABLE IF NOT EXISTS `category` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `description` VARCHAR(255) NULL,
+CREATE TABLE IF NOT EXISTS `vault-tec-employee` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `role` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `user`
+-- Table `overseer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
+DROP TABLE IF EXISTS `overseer` ;
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `overseer` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
+  `age` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `vault_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventory`
+-- Table `vault`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `inventory` ;
+DROP TABLE IF EXISTS `vault` ;
 
-CREATE TABLE IF NOT EXISTS `inventory` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
-  `description` VARCHAR(255) NULL,
-  `created_at` DATETIME NULL,
-  `updated_at` DATETIME NULL,
-  INDEX `fk_inventory_user1_idx` (`user_id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `vault` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  `overseer_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_inventory_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
+  INDEX `fk_vault_overseer_idx` (`overseer_id` ASC) VISIBLE,
+  CONSTRAINT `fk_vault_overseer`
+    FOREIGN KEY (`overseer_id`)
+    REFERENCES `overseer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventory_log`
+-- Table `dweller`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `inventory_log` ;
+DROP TABLE IF EXISTS `dweller` ;
 
-CREATE TABLE IF NOT EXISTS `inventory_log` (
+CREATE TABLE IF NOT EXISTS `dweller` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `timestamp` DATETIME NULL,
-  `notes` VARCHAR(255) NULL,
-  `inventory_id` INT NULL,
-  `user_id` INT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `age` VARCHAR(45) NOT NULL,
+  `role` VARCHAR(45) NOT NULL,
+  `vault_id1` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_inventory_log_inventory1_idx` (`inventory_id` ASC) VISIBLE,
-  INDEX `fk_inventory_log_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_inventory_log_inventory1`
-    FOREIGN KEY (`inventory_id`)
-    REFERENCES `inventory` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_inventory_log_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
+  INDEX `fk_dweller_vault1_idx` (`vault_id1` ASC) VISIBLE,
+  CONSTRAINT `fk_dweller_vault1`
+    FOREIGN KEY (`vault_id1`)
+    REFERENCES `vault` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -97,43 +94,33 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `inventory_item` ;
 
 CREATE TABLE IF NOT EXISTS `inventory_item` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `inventory_id` INT NULL,
-  `name` VARCHAR(45) NULL,
-  `quantity` INT NULL,
-  `unit` VARCHAR(45) NULL,
-  `expiration` DATETIME NULL,
-  `included_date` DATETIME NULL,
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `category` VARCHAR(45) NOT NULL,
+  `quantity` INT NOT NULL,
+  `vault_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_inventory_item_inventory1_idx` (`inventory_id` ASC) VISIBLE,
-  CONSTRAINT `fk_inventory_item_inventory1`
-    FOREIGN KEY (`inventory_id`)
-    REFERENCES `inventory` (`id`)
+  INDEX `fk_inventory_item_vault1_idx` (`vault_id` ASC) VISIBLE,
+  CONSTRAINT `fk_inventory_item_vault1`
+    FOREIGN KEY (`vault_id`)
+    REFERENCES `vault` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `item_has_category`
+-- Table `transactions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `item_has_category` ;
+DROP TABLE IF EXISTS `transactions` ;
 
-CREATE TABLE IF NOT EXISTS `item_has_category` (
-  `category_id` INT NOT NULL,
-  `inventory_item_id` INT NOT NULL,
-  PRIMARY KEY (`category_id`, `inventory_item_id`),
-  INDEX `fk_item_has_category_inventory_item1_idx` (`inventory_item_id` ASC) VISIBLE,
-  CONSTRAINT `fk_item_has_category_category1`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `category` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_item_has_category_inventory_item1`
-    FOREIGN KEY (`inventory_item_id`)
-    REFERENCES `inventory_item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+CREATE TABLE IF NOT EXISTS `transactions` (
+  `id` INT NOT NULL,
+  `item_id` VARCHAR(45) NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `timestamp` VARCHAR(45) NOT NULL,
+  `performer` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
@@ -148,62 +135,122 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `category`
+-- Data for table `vault-tec-employee`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (1, 'Food', 'Edible items necessary for sustenance');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (2, 'Water', 'Drinking water and other liquid supplies');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (3, 'Medication', 'Essential drugs and first aid supplies');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (4, 'Tools', 'Survival tools such as knives, hammers, and flashlights');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (5, 'Clothing', 'Warm clothing and protective wear');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (6, 'Fuel', 'Gasoline, propane, and other fuel souurces');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (7, 'Communications', 'Radios, and guides for communicaion devices');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (8, 'Hygeine', 'Sanitation supplies such as soap, toothpaste, and towels.');
-INSERT INTO `category` (`id`, `name`, `description`) VALUES (9, NULL, NULL);
+INSERT INTO `vault-tec-employee` (`id`, `name`, `email`, `password`, `role`) VALUES (1, 'James Anderson', 'j.anderson@vault-tec.gov', 'password123', 'ADMIN');
+INSERT INTO `vault-tec-employee` (`id`, `name`, `email`, `password`, `role`) VALUES (2, 'Sarah Conner', 's.conner@vault-tec.gov', 'securepass', 'MANAGER');
+INSERT INTO `vault-tec-employee` (`id`, `name`, `email`, `password`, `role`) VALUES (3, 'Ethan Hunt', 'e.hunt@vault-tec.gov', 'vaultAccess', 'MANAGER');
+INSERT INTO `vault-tec-employee` (`id`, `name`, `email`, `password`, `role`) VALUES (4, 'Diana Parker', 'd.parker@vault-tec.gov', 'capSecure', 'ADMIN');
+INSERT INTO `vault-tec-employee` (`id`, `name`, `email`, `password`, `role`) VALUES (5, 'Ellie Miller', 'e.miller@vault-tec.gov', 'crowbar', 'MANAGER');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `user`
+-- Data for table `overseer`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES (1, 'Colin Moriarty', 'moneyman11', 'luckoftheirish7@gmail.com');
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES (2, 'Andy Stahl', 'barterboy0102', 'bargainboy@Yahoo.com');
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES (3, 'Lucy West', 'foodsbyforce', 'bellyofplates@msn.com');
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES (4, 'Three Dog', 'radiobaby3', 'capitalking@aol.com');
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES (5, 'Private Sierra', 'lockednloaded!', 'gungirl99@yahoo.com');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (1, 43, 'Dr. Richard Grey', 'r.grey@vaults.com', 'overseer123', '1');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (2, 61, 'Elizabeth Warren', 'e.warren@vaults.com', 'cats', '2');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (3, 22, 'Nathan Roberts', 'r.roberts@vaults.com', 'password456', '3');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (4, 29, 'Sarah Miles', 's.miles@vaults.com', 'safteyFirst', '4');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (5, 31, 'Tom Henderson', 't.henderson@vaults.com', 'dogs', '5');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (6, 28, 'Emile Rose', 'e.rose@vaults.com', 'gardenOfEden', '6');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (7, 86, 'Derek Hale', 'd.hale@vaults.com', 'haleBale', '7');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (8, 33, 'Sofia Carter', 's.carter@vaults.com', 'leadership', '8');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (9, 12, 'Ryan Davis', 'ryanrocks@vaults.com', 'irock123', '9');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (10, 57, 'Isabella Garcia', 'i.garcia@vaults.com', 'futureproof', '10');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (11, 210, 'Securitron Mk4', 'robcoadmin@vaults.com', 'protectall', '11');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (12, 41, 'Michael Adama', 'm.adams@vault.com', 'noentry', '12');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (13, 33, 'Rebecca Wilson', 'r.wilson@vaults.com', 'vaultheart', '13');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (14, 61, 'Joshua Bell', 'j.bell@vaults.com', 'lawandorder', '14');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (15, 30, 'Victoria Johnson', 'v.johnson@vaults.com', 'bunkers', '15');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (16, 29, 'Ethan Turner', 'e.turner@vaults.com', 'haven', '16');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (17, 37, 'Sophia Mitchell', 's.mitchell@vaults.com', 'stayinside', '17');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (18, 73, 'Oliver Scott', 'o.scott@vaults.com', 'powerforce', '18');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (19, 20, 'Jacob Hall', 'j.hall@vaults.com', 'citadelguard', '19');
+INSERT INTO `overseer` (`id`, `age`, `name`, `email`, `password`, `vault_id`) VALUES (20, 55, 'Lucas Brown', 'l.brown@vaults.com', 'guardian', '20');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `inventory`
+-- Data for table `vault`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory` (`id`, `user_id`, `name`, `description`, `created_at`, `updated_at`) VALUES (1, 1, 'Home Essentials', 'Primary inventory for home supplies and tools', '2025-01-01 10:00:00', '2025-01-01 10:00:00');
-INSERT INTO `inventory` (`id`, `user_id`, `name`, `description`, `created_at`, `updated_at`) VALUES (2, 2, 'Trading Goods', 'Items for trading post and bartering', '2025-01-02 11:00:00', '2025-01-02 11:00:00');
-INSERT INTO `inventory` (`id`, `user_id`, `name`, `description`, `created_at`, `updated_at`) VALUES (3, 3, 'Food Supplies', 'Kitchen gear and food supplies for the winter', '2025-01-03 12:00:00', '2025-01-04 08:15:00');
-INSERT INTO `inventory` (`id`, `user_id`, `name`, `description`, `created_at`, `updated_at`) VALUES (4, 4, 'Medical Gear', 'Medical supplies, first aid, medicine', '2025-01-04 06:30:00', '2025-01-05 07:00:00');
-INSERT INTO `inventory` (`id`, `user_id`, `name`, `description`, `created_at`, `updated_at`) VALUES (5, 5, 'Security', 'Items for defense, support, security', '2025-01-01 09:24:00', '2025-01-05 16:25:00');
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (1, 'Vault 101', 'Washington D.C', 'NORMAL', 1);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (2, 'Vault 111', 'Boston', 'ABANDONED', 2);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (3, 'Vault 76', 'West Virginia', 'NORMAL', 3);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (4, 'Vault 95', 'Massachusetts', 'RAIDED', 4);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (5, 'Vault 92', 'Virginia', 'NORMAL', 5);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (6, 'Vault 22', 'Nevada', 'ABANDONED', 6);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (7, 'Vault 108', 'Maryland', 'NORMAL', 7);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (8, 'Vault 87', 'Capital Wasteland', 'RAIDED', 8);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (9, 'Vault 12', 'California', 'ABANDONED', 9);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (10, 'Vault 81', 'Commonwealth', 'ABANDONED', 10);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (11, 'Vault 63', 'West Virginia', 'NORMAL', 11);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (12, 'Vault 34', 'Nevada', 'ABANDONED', 12);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (13, 'Vault 19', 'Mojave Wasteland', 'RAIDED', 13);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (14, 'Vault 3', 'Nevada', 'NORMAL', 14);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (15, 'Vault 56 ', 'Colorado', 'NORMAL', 15);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (16, 'Vault 17', 'Nevada', 'NORMAL', 16);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (17, 'Vault 53', 'New York', 'ABANDONED', 17);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (18, 'Vault 69', 'Texas', 'NORMAL', 18);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (19, 'Vault 77', 'Washington D.C', 'ABANDONED', 19);
+INSERT INTO `vault` (`id`, `name`, `location`, `status`, `overseer_id`) VALUES (20, 'Vault 88', 'Commonwealth', 'NORMAL', 20);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `inventory_log`
+-- Data for table `dweller`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (1, '2025-01-25 10:30:00', 'Added 20 units of canned beans to inventory', 1, 1);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (2, '2025-01-22 14:45:00', 'Updated quantity of bottled water to 50 units', 2, 2);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (3, '2025-01-24 09:00:00', 'Removed expired first-aid supplpies from inventory', 3, 3);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (4, '2025-01-26 16:15:00', 'Restocked 10 units of flashlight batteries', 4, 4);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (5, '2025-01-26 12:00:00', 'Moved fuel canisters to secondary storage location', 5, 5);
-INSERT INTO `inventory_log` (`id`, `timestamp`, `notes`, `inventory_id`, `user_id`) VALUES (6, '2025-01-26 12:25:00', 'Obtained shipmemt of thermal blankets', 5, 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (1, 'John', '28', 'Engineer', 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (2, 'Anna', '35', 'Guard', 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (3, 'Kevin', '22', 'Scientist', 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (4, 'Sarah', '31', 'Doctor', 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (5, 'Mike', '40', 'Guard', 3);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (6, 'Emily', '27', 'Teacher', 3);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (7, 'David', '13', 'Guard', 4);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (8, 'Chris', '24', 'Technician', 4);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (9, 'Laura', '28', 'Scientist', 5);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (10, 'Daniel', '46', 'Doctor', 5);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (11, 'Jessica', '34', 'Teacher', 7);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (12, 'Adam', '11', 'Student', 7);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (13, 'Ethan', '12', 'Student', 7);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (14, 'Lee', '33', 'Guard', 7);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (15, 'Wilson', '24', 'Engineer', 8);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (16, 'Jones', '26', 'Scientist', 8);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (17, 'Harris', '31', 'Guard', 8);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (18, 'Scott', '38', 'Electrician', 8);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (19, 'Jaymee', '44', 'Nurse', 11);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (20, 'Lucas', '36', 'Cook', 11);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (21, 'Lewis', '23', 'Scientist', 11);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (22, 'Moore', '45', 'Technician', 11);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (23, 'Martinez', '26', 'Guard', 13);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (24, 'Jackson', '32', 'Researcher', 13);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (25, 'Allen', '25', 'Researcher', 13);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (26, 'Thomas', '23', 'Guard', 15);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (27, 'Holmes', '54', 'Guard', 14);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (28, 'Tracy', '23', 'Doctor', 14);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (29, 'Bella', '19', 'Teacher', 16);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (30, 'Stockton', '67', 'Doctor', 18);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (31, 'Wesley', '32', 'Cook', 18);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (32, 'Braxton', '23', 'Guard', 18);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (33, 'Dominic', '32', 'Electrician', 4);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (34, 'Lucy', '20', 'Technican', 10);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (35, 'Roy', '44', 'Plumber', 20);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (36, 'Kody', '25', 'Scientist', 20);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (37, 'Polly', '33', 'Cook', 1);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (38, 'Norma', '76', 'Guard', 8);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (39, 'Alvin', '21', 'Doctor', 20);
+INSERT INTO `dweller` (`id`, `name`, `age`, `role`, `vault_id1`) VALUES (40, 'Louise', '11', 'Mechanic', 3);
 
 COMMIT;
 
@@ -213,11 +260,34 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `prepperdb`;
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (1, 1, 'Canned Beans', 20, 'cans', '2026-01-01', '2025-01-01 10:10:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (2, 1, 'Bottled Water', 50, 'liters', '2025-12-31', '2025-01-01 10:15:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (3, 4, 'Alcohol Pads', 100, 'pieces', '2025-01-02', '2025-01-02 11:10:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (4, 2, 'Batteries', 40, 'pieces', '2025-01-03 ', '2025-01-03 12:30:00');
-INSERT INTO `inventory_item` (`id`, `inventory_id`, `name`, `quantity`, `unit`, `expiration`, `included_date`) VALUES (5, 3, 'Ammo Boxes', 20, 'boxes', '2027-01-01', '2025-01-03 12:40:00');
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (1, 'Purified Water', 'FOOD', 50, 1);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (2, 'Stimpaks', 'MEDICAL', 30, 1);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (3, 'RadAway', 'MEDICAL', 20, 3);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (4, 'Laser Rifle', 'WEAPON', 3, 3);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (5, 'Fusion Cores', 'MISC', 15, 4);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (6, 'Cram Cans', 'FOOD', 10, 5);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (7, 'Med-X', 'MEDICAL', 12, 5);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (8, '10mm Ammo', 'MISC', 200, 8);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (9, 'Plasma Grenade', 'WEAPON', 10, 11);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (10, 'Buffout', 'MEDICAL', 13, 13);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (11, 'T-45 Power Armor', 'MISC', 1, 16);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (12, 'Microfusoin Cell', 'MISC', 35, 3);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (13, 'Ration Packs', 'FOOD', 19, 3);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (14, 'Feral Ghoul Repellent ', 'MISC', 20, 7);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (15, 'Nuka-Cola Quantum', 'FOOD', 50, 16);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (16, 'Sweet Rolls', 'FOOD', 2, 13);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (17, 'Hunting Rifle', 'WEAPON', 3, 5);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (18, 'Pipe Pistol', 'WEAPON', 5, 5);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (19, 'Abraxo Cleaner', 'MISC', 13, 1);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (20, 'Stimpaks', 'MEDICAL', 11, 20);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (21, 'Canned Dog Food', 'FOOD ', 5, 8);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (22, 'Ration Pacls', 'FOOD', 10, 20);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (23, 'Stealth-Boy', 'MISC', 1, 5);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (24, 'Mutifruit', 'FOOD', 80, 7);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (25, 'Fusion Cores', 'MISC ', 12, 7);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (26, 'Nuka Cola', 'FOOD', 2, 13);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (27, 'Plasma Cartridge', 'MISC', 40, 11);
+INSERT INTO `inventory_item` (`id`, `name`, `category`, `quantity`, `vault_id`) VALUES (28, 'Mirelurk Meat', 'FOOD', 3, 8);
 
 COMMIT;
 

@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 public class InventoryItemServiceImpl implements InventoryItemService {
 
 	@Autowired
-	private InventoryItemRepository inventoryItemRepo;
+    private InventoryItemRepository inventoryItemRepo;
 
 	@Override
 	public List<InventoryItem> findAll() {
@@ -27,13 +27,13 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 	@Override
 	public InventoryItem findById(int id) {
 		Optional<InventoryItem> inventoryItem = inventoryItemRepo.findById(id);
-		return inventoryItem.orElse(null);
+		return null;
 	}
 
 	@Override
 	public InventoryItem create(InventoryItem inventoryItem) {
-		return inventoryItemRepo.save(inventoryItem);
-	}
+		return inventoryItemRepo.save(inventoryItem);	
+				}
 
 	@Override
 	public InventoryItem update(int id, InventoryItem inventoryItem) {
@@ -48,4 +48,6 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 	public void deleteById(int id) {
 		inventoryItemRepo.deleteById(id);
 	}
+
+
 }
