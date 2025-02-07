@@ -16,4 +16,6 @@ public interface InventoryItemService {
     InventoryItem update(int id, InventoryItem inventoryItem);
 
     void deleteById(int id);
+    
+    List<InventoryItem> findByVaultId(int vaultId);
 }

@@ -2,6 +2,8 @@ package com.skilldistillery.bunker.entities;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "overseer")
 public class Overseer {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,6 +30,7 @@ public class Overseer {
 
     @OneToOne
     @JoinColumn(name = "vault_id", unique = true)
+    @JsonIgnore
     private Vault vault;
 
 	public int getId() {

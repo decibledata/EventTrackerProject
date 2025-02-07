@@ -32,7 +32,7 @@ public class OverseerController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Overseer> show(@PathVariable int id) {
+	public ResponseEntity<Overseer> show(@PathVariable("id") int id) {
 		Overseer overseer = overseerService.findById(id);
 		if (overseer != null) {
 			return new ResponseEntity<>(overseer, HttpStatus.OK);
@@ -48,7 +48,7 @@ public class OverseerController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Overseer> update(@PathVariable int id, @RequestBody Overseer updatedOverseer) {
+	public ResponseEntity<Overseer> update(@PathVariable("id") int id, @RequestBody Overseer updatedOverseer) {
 		Overseer updated = overseerService.update(id, updatedOverseer);
 		if (updated != null) {
 			return new ResponseEntity<>(updated, HttpStatus.OK);
@@ -58,7 +58,7 @@ public class OverseerController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable int id) {
+	public ResponseEntity<Void> delete(@PathVariable("id") int id) {
 		overseerService.deleteById(id);
 		return null;
 		}

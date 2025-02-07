@@ -22,10 +22,10 @@ import com.skilldistillery.bunker.services.InventoryItemService;
 @CrossOrigin(origins = "*")
 public class InventoryItemController {
 
-    @Autowired
-    private InventoryItemService inventoryService;
+	@Autowired
+	private InventoryItemService inventoryService;
 
-    @GetMapping
+	@GetMapping
 	public List<InventoryItem> listAllInventoryItems() {
 		return inventoryService.findAll();
 	}
@@ -34,6 +34,11 @@ public class InventoryItemController {
 	public ResponseEntity<InventoryItem> findById(@PathVariable("id") int id) {
 		InventoryItem item = inventoryService.findById(id);
 		return item != null ? ResponseEntity.ok(item) : ResponseEntity.notFound().build();
+	}
+
+	@GetMapping("/vault/{vaultId}")
+	public List<InventoryItem> getInventoryByVaultId(@PathVariable("vaultId") int vaultId) {
+		return inventoryService.findByVaultId(vaultId);
 	}
 
 	@PostMapping

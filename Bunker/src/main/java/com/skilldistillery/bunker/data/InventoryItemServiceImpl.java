@@ -49,5 +49,10 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 		inventoryItemRepo.deleteById(id);
 	}
 
+	@Override
+	public List<InventoryItem> findByVaultId(int vaultId) {
+		return inventoryItemRepo.findByVaultId(vaultId);
+	}
+
 
 }

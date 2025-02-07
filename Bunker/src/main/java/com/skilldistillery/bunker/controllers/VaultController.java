@@ -31,7 +31,7 @@ public class VaultController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vault> findById(@PathVariable int id) {
+    public ResponseEntity<Vault> findById(@PathVariable("id") int id) {
     	return ResponseEntity.of(vaultService.findById(id));
     }
     

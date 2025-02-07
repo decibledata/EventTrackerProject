@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +30,7 @@ public class Vault {
 	private String status;
 
 	@OneToOne(mappedBy = "vault", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Overseer overseer;
 
 	@OneToMany(mappedBy = "vault", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,11 +1,11 @@
 package com.skilldistillery.bunker.entities;
 
-import java.util.Locale.Category;
+
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,13 +22,13 @@ public class InventoryItem {
 
 	private String name;
 
-	@Enumerated(EnumType.STRING)
-	private Category category;
+	private String category;
 
 	private int quantity;
 
 	@ManyToOne
 	@JoinColumn(name = "vault_id")
+	@JsonIgnore
 	private Vault vault;
 
 	public int getId() {
@@ -47,11 +47,11 @@ public class InventoryItem {
 		this.name = name;
 	}
 
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
