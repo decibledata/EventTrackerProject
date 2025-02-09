@@ -29,5 +29,14 @@ export class VaultService {
     )
   }
 
-
+  show(vaultId: number): Observable<Vault> {
+    return this.http.get<Vault>(`${this.url}/${vaultId}`).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(() => new Error(`VaultService.show(): error retrieving vault with ID ${vaultId}.`));
+      })
+    );
+  }
 }
+
+

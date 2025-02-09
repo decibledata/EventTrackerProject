@@ -1,5 +1,21 @@
-<p>Vault-Tec Managment System</p>
+<div class="fallout-terminal-screen">
+  <p class="terminal-header typing-text">
+    ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM<br>
+    COPYRIGHT 2075-2077 VAULT TEC INDUSTRIES<br><br>
+    VAULT-TEC VAULT MANAGEMENT SYSTEM
+  </p>
 
-<div *ngFor="let vault of vaults">
-  <p>{{vault.name}}</p>
+  <p class="fallout-clickable" (click)="toggleVaults()">> VIEW ALL VAULTS</p>
+
+  <div *ngIf="showVaults" class="vault-container">
+    <p *ngFor="let vault of vaults" class="vault-item typing-text">> {{ vault.name }}</p>
+  </div>
+</div>
+
+<div *ngIf="selectedVault" class="vault-details">
+  <h2>> VAULT DETAILS</h2>
+  <p>> NAME: {{selectedVault.name}}</p>
+  <p>> LOCATION: {{selectedVault.location}}</p>
+  <p>> STATUS: {{selectedVault.status}}</p>
+  <p>> OVERSEER: {{selectedVault.overseer}}</p>
 </div>
